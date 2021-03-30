@@ -69,8 +69,18 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  authorizer:
+    handler: src/functions/authorizer.authorizer
   loginUser:
     handler: src/functions/login.login
+    events:
+      - http:
+          method: post
+          cors: true
+          path: /v1/login
+          request:
+            schema:
+              application/json: ${file(src/schema/login_request.json)}
   createUser:
     handler: src/functions/createUser.createUser
     events:
